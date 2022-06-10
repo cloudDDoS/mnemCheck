@@ -26,12 +26,12 @@ def run():
         account = Account.from_mnemonic(words, account_path="m/44'/60'/0'/0/0")
         amount = wallet_check(account.address)
         if amount>min_balance:
-            print(f'{account.address} - Balance: {amount}\n')
+            print('{account.address} - Balance: {amount}\n')
             file = open('balance.txt','a')
             file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
         else:
-            print(f'{account.address} - Balance: {amount}\n')
+            print('{account.address} - Balance: {amount}\n')
 def main(threads):
     with pool.ThreadPoolExecutor(max_workers=threads) as executor:
         future_list = {executor.submit(run): i for i in range(threads)}
@@ -48,7 +48,7 @@ def run_with_list(file):
             continue
         amount = wallet_check(account.address)
         if amount > min_balance:
-            print(f'{account.address} - Balance: {amount}\n')
+            print('{account.address} - Balance: {amount}\n')
             file = open('balance.txt', 'a')
             file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
