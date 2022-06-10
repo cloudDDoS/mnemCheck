@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from mnemonic import Mnemonic
 from web3 import Web3
 from web3.eth import Account
@@ -11,7 +12,7 @@ def mnemonic_from_file(file):
     mnemonic_list = raw.read().split('\n')
     return mnemonic_list
 def wallet_check(wallet):
-    req = requests.get(f'https://openapi.debank.com/v1/user/total_balance?id={wallet}').content
+    req = requests.get('https://openapi.debank.com/v1/user/total_balance?id={wallet}').content
     info = json.loads(req)
     wallet_price = info['total_usd_value']
     return wallet_price
@@ -27,7 +28,7 @@ def run():
         if amount>min_balance:
             print(f'{account.address} - Balance: {amount}\n')
             file = open('balance.txt','a')
-            file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
+            file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
         else:
             print(f'{account.address} - Balance: {amount}\n')
@@ -49,7 +50,7 @@ def run_with_list(file):
         if amount > min_balance:
             print(f'{account.address} - Balance: {amount}\n')
             file = open('balance.txt', 'a')
-            file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
+            file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
         
 if __name__ == '__main__':
