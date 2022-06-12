@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from mnemonic import Mnemonic
 from web3 import Web3
 from web3.eth import Account
@@ -12,7 +11,7 @@ def mnemonic_from_file(file):
     mnemonic_list = raw.read().split('\n')
     return mnemonic_list
 def wallet_check(wallet):
-    req = requests.get('https://openapi.debank.com/v1/user/total_balance?id={wallet}').content
+    req = requests.get(f'https://openapi.debank.com/v1/user/total_balance?id={wallet}').content
     info = json.loads(req)
     wallet_price = info['total_usd_value']
     return wallet_price
@@ -26,12 +25,12 @@ def run():
         account = Account.from_mnemonic(words, account_path="m/44'/60'/0'/0/0")
         amount = wallet_check(account.address)
         if amount>min_balance:
-            print('{account.address} - Balance: {amount}\n')
+            print(f'{account.address} - Balance: {amount}\n')
             file = open('balance.txt','a')
-            file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
+            file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
         else:
-            print('{account.address} - Balance: {amount}\n')
+            print(f'{account.address} - Balance: {amount}\n')
 def main(threads):
     with pool.ThreadPoolExecutor(max_workers=threads) as executor:
         future_list = {executor.submit(run): i for i in range(threads)}
@@ -48,9 +47,9 @@ def run_with_list(file):
             continue
         amount = wallet_check(account.address)
         if amount > min_balance:
-            print('{account.address} - Balance: {amount}\n')
+            print(f'{account.address} - Balance: {amount}\n')
             file = open('balance.txt', 'a')
-            file.write('{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
+            file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
         
 if __name__ == '__main__':
