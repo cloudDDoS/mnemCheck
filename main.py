@@ -14,7 +14,7 @@ def wallet_check(wallet):
     info = json.loads(req)
     wallet_price = info['total_usd_value']
     return wallet_price
-min_balance = 0.1
+min_balance = 0.0000001
 def run():
     while True:
         mnemo = Mnemonic("english")
